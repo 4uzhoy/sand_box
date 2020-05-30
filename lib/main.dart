@@ -1,17 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sand_box/model/list_model.dart';
+import 'package:sand_box/sreens/list_screen.dart';
 
+import 'bloc/app_bloc_delegate.dart';
 import 'config/app_config.dart';
 
-
-
 void mainCommon(AppConfig appConfig) {
+  BlocSupervisor.delegate = AppBlocDelegate();
   runApp(MyApp(appConfig));
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp(this.appConfig);
 
-const  MyApp(this.appConfig);
   final AppConfig appConfig;
 
   // This widget is the root of your application.
@@ -19,10 +22,8 @@ const  MyApp(this.appConfig);
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      
       theme: ThemeData(
-
-        primaryColor:appConfig.colorSwatch,
+        primaryColor: appConfig.colorSwatch,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
@@ -48,47 +49,39 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  List<ListModel> _list;
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
+  @override
+  void initState() {
+    _list = List<ListModel>.generate(
+        15,
+        (int index) =>
+            ListModel(index, "title", index * 100.toDouble())); // [0, 1, 4]
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-    appBar: AppBar(
-      title: Text("AppBar"),
-      actions: <Widget>[],),
+      appBar: AppBar(
+        title: Text("AppBar"),
+        actions: <Widget>[],
+      ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-  
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
+            RaisedButton(
+              child: Text("to list view"),
+              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                  builder: (ctx) => ConcreteListScreen(_list))),
+            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
