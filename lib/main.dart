@@ -1,87 +1,57 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:sand_box/model/list_model.dart';
-import 'package:sand_box/sreens/list_screen.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:sand_box/bloc/navigation/navigator_bloc.dart';
+import 'package:sand_box/service/workmanager/workmanager_service.dart';
+import 'package:workmanager/workmanager.dart';
 
-import 'bloc/app_bloc_delegate.dart';
+import 'bloc/app_bloc_observer.dart';
 import 'config/app_config.dart';
+import 'my_app.dart';
+import 'service/local_notification/notification_core.dart';
 
-void mainCommon(AppConfig appConfig) {
-  BlocSupervisor.delegate = AppBlocDelegate();
-  runApp(MyApp(appConfig));
+bool isWMinited = false;
+
+callbackDispatcher() {
+  Workmanager.executeTask((task, inputData) {
+    print(
+        "Native called background task: ${task}"); //simpleTask will be emitted here.
+    return Future.value(true);
+  });
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp(this.appConfig);
+Future<void> mainCommon(AppConfig appConfig) async {
+  WidgetsFlutterBinding.ensureInitialized();
+  _initWM();
+  _initBloc();
+  _initPushNotification();
 
-  final AppConfig appConfig;
+  WorkManagerService.cancelAllWMTasks();
+  //WorkManagerService.registerOneOffTask("sv12002", "visitresult",inputData: {'visit': 13});
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primaryColor: appConfig.colorSwatch,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+  // NotificationService.showNotification();
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider<NavigatorBloc>(
+      create: (BuildContext context) => NavigatorBloc(),
+    ),
+  ], child: MyApp(appConfig, flutterLocalNotificationsPlugin)));
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
+_initWM() {
+  Workmanager.initialize(
+      callbackDispatcher, // The top level function, aka callbackDispatcher
+      isInDebugMode:
+          true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+      );
+  isWMinited = true;
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  List<ListModel> _list;
+_initBloc() async {
+  Bloc.observer = AppBlocObserver();
+  HydratedBloc.storage = await HydratedStorage.build();
+}
 
-  @override
-  void initState() {
-    _list = List<ListModel>.generate(
-        15,
-        (int index) =>
-            ListModel(index, "title", index * 100.toDouble())); // [0, 1, 4]
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("AppBar"),
-        actions: <Widget>[],
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              child: Text("to list view"),
-              onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                  builder: (ctx) => ConcreteListScreen(_list))),
-            )
-          ],
-        ),
-      ),
-      // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
+_initPushNotification() async {
+  await NotificationCore.init();
 }

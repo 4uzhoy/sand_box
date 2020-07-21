@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "855841346929",
+    "firebase_url": "https://sandbox-54345.firebaseio.com",
+    "project_id": "sandbox-54345",
+    "storage_bucket": "sandbox-54345.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:855841346929:android:df9f35e05e6046c3f5d2d0",
+        "android_client_info": {
+          "package_name": "com.example.sand_box"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "855841346929-83adnqbudep063g3kq9g3103bp407mv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhKukx_txkAT6gBFCL_5z7x7Z_YOceGbc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "855841346929-83adnqbudep063g3kq9g3103bp407mv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

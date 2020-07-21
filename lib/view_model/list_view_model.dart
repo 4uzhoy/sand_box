@@ -15,9 +15,12 @@ class ListViewModel extends StatelessWidget {
             listModel.id.toString() + " " + listModel.title,
           ),
           SizedBox(
-            height: 16,
+            height: 4,
           ),
           Text(listModel.value.toStringAsFixed(1)),
+          SizedBox(
+            height: 16,
+          ),
         ],
       ),
     );

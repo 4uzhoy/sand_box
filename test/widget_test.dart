@@ -10,13 +10,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:sand_box/config/app_config.dart';
 import 'package:sand_box/config/app_config_dev.dart';
 
-import 'package:sand_box/main.dart';
-
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    AppConfig appConfig =AppConfigDev();
+    AppConfig appConfig = AppConfigDev();
     // Build our app and trigger a frame.
-    await tester.pumpWidget(MyApp(appConfig));
+    // await tester.pumpWidget(MyApp(appConfig));
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

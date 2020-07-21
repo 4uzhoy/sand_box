@@ -11,3 +11,11 @@ class ListInverted<T> extends ListViewEvent {
   @override
   List<Object> get props => [list];
 }
+
+class SearchActivated<T> extends ListViewEvent {
+  final List<T> list;
+  const SearchActivated(this.list);
+
+  @override
+  List<Object> get props => [list];
+}

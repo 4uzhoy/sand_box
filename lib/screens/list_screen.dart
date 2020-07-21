@@ -39,17 +39,9 @@ class _ConcreteListScreenState extends State<ConcreteListScreen> {
       body: BlocBuilder<ListViewBloc, ListViewState>(
         bloc: _listViewBloc,
         builder: (BuildContext context, ListViewState state) {
-          if (state is SortedList<ListModel>) {
-            _list = state.resultList;
-            return ListView.builder(
-              itemCount: _list.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListViewModel(_list[index]);
-              },
-            );
-          }
-          if (state is InitialListViewState<ListModel>)  {
-            _list = state.initList;
+          if (state is SortedList<ListModel> ||
+              state is InitialListViewState<ListModel>) {
+            _list = state.list;
             return ListView.builder(
               itemCount: _list.length,
               itemBuilder: (BuildContext context, int index) {
