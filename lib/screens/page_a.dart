@@ -22,7 +22,7 @@ class _PageAState extends State<PageA> {
     return Scaffold(
       appBar: AppBar(),
       body: BlocBuilder<CounterBloc, CounterState>(
-        bloc: _counterBloc,
+        cubit: _counterBloc,
         builder: (BuildContext context, CounterState state) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,

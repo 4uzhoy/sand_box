@@ -12,6 +12,17 @@ void main() {
       final fifteenHAgo = new DateTime.now().subtract(new Duration(hours: 15));
       final fifteenDAgo = new DateTime.now().subtract(new Duration(days: 15));
 
+      var list1 = ['I', '💙', 'Flutter'];
+
+      final list2 = list1;
+
+      print(list2[2]);
+      list2[2] = 'Dart'; // Will this line compile?
+      // list2 =null;
+      print(list2[2]);
+
+      ///  const list3 = list1; // Will this line compile?
+
       print(timeago.format(fifteenHAgo)); // 15 minutes ago
       print(timeago.format(fifteenDAgo)); // 15 minutes ago
 

@@ -37,7 +37,7 @@ class _ConcreteListScreenState extends State<ConcreteListScreen> {
         ],
       ),
       body: BlocBuilder<ListViewBloc, ListViewState>(
-        bloc: _listViewBloc,
+        cubit: _listViewBloc,
         builder: (BuildContext context, ListViewState state) {
           if (state is SortedList<ListModel> ||
               state is InitialListViewState<ListModel>) {

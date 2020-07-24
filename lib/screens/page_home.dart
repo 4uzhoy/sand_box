@@ -7,6 +7,8 @@ import 'package:sand_box/screens/app_screen.dart';
 import 'package:sand_box/screens/list_screen.dart';
 import 'package:sand_box/screens/page_a.dart';
 import 'package:sand_box/service/local_notification/notification_service.dart';
+import 'package:sand_box/service/workmanager/workmanager_service.dart';
+import 'package:workmanager/workmanager.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({
@@ -26,6 +28,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   List<ListModel> _list;
   NotificationDetails platformChannelSpecifics;
+
   @override
   void initState() {
     var androidPlatformChannelSpecifics = AndroidNotificationDetails(
@@ -76,7 +79,8 @@ class _MyHomePageState extends State<MyHomePage> {
             RaisedButton(
               child: Text("show push notification"),
               textTheme: Theme.of(context).buttonTheme.textTheme,
-              onPressed: () => {NotificationService.showNotification()},
+              onPressed: () =>
+                  {NotificationService.showNotification(0, "test", "test")},
             ),
             RaisedButton(
               child: Text("bottom navigation bloc"),
@@ -84,10 +88,35 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () => Navigator.of(context)
                   .push(MaterialPageRoute(builder: (ctx) => AppScreen())),
             ),
+            RaisedButton(
+              child: Text("set background task"),
+              textTheme: Theme.of(context).buttonTheme.textTheme,
+              onPressed: _setBackgroundTask,
+            ),
+            RaisedButton(
+              child: Text("set background loop task"),
+              textTheme: Theme.of(context).buttonTheme.textTheme,
+              onPressed: _setBackgroundLoopTask,
+            ),
           ],
         ),
       ),
       // This trailing comma makes auto-formatting nicer for build methods.
+    );
+  }
+
+  void _setBackgroundTask() {
+    WorkManagerService.registerOneOffTask("111", "notificationTask",
+        tag: "notify",
+        initialDelay: Duration(seconds: 3),
+        constraints: Constraints(networkType: NetworkType.connected),
+        inputData: {'user': 1200});
+  }
+
+  void _setBackgroundLoopTask() {
+    WorkManagerService.registerLoopTask(
+      "111",
+      "this is loop task",
     );
   }
 }

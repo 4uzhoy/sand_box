@@ -2,7 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:l/l.dart';
 import 'package:sand_box/bloc/navigation/navigator_bloc.dart';
+import 'package:sand_box/service/local_notification/notification_service.dart';
 import 'package:sand_box/service/workmanager/workmanager_service.dart';
 import 'package:workmanager/workmanager.dart';
 
@@ -13,10 +15,13 @@ import 'service/local_notification/notification_core.dart';
 
 bool isWMinited = false;
 
+/// В этой штуке выполняем всю работу
 callbackDispatcher() {
   Workmanager.executeTask((task, inputData) {
-    print(
-        "Native called background task: ${task}"); //simpleTask will be emitted here.
+    l.s("task $task");
+    l.s("task ${inputData.toString()}"); //simpleTask will be emitted here.
+    NotificationService.showNotification(
+        0, "backgroundNotification", "backgroundNotification BODY { }");
     return Future.value(true);
   });
 }
@@ -42,7 +47,7 @@ _initWM() {
   Workmanager.initialize(
       callbackDispatcher, // The top level function, aka callbackDispatcher
       isInDebugMode:
-          true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+          false // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
       );
   isWMinited = true;
 }

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sand_box/bloc/bottom_navigator/page_bloc.dart';
-
-import 'pages/pages.dart';
+import 'package:sand_box/screens/pages/pages.dart';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({
@@ -25,21 +24,31 @@ class _AppScreenState extends State<AppScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body: BlocBuilder<PageBloc, PageState>(
-        bloc: _pageBloc,
-        builder: (_, state) {
-          if (state is StateAlarm) return AlarmPage();
-          if (state is StateWorldTime) return WorldTimePage();
-          if (state is StateStopwatch) return StopwatchPage();
-          if (state is StateTimer) return TimerPage();
-          return SizedBox();
-        },
-      ),
+      appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: Theme.of(context).iconTheme.copyWith(color: Colors.black)),
+      body: BlocConsumer<PageBloc, PageState>(
+          cubit: _pageBloc,
+          builder: (_, state) {
+            if (state is StateAlarm) return AlarmPage();
+            if (state is StateWorldTime) return WorldTimePage();
+            if (state is StateStopwatch) return StopwatchPage();
+            if (state is StateTimer) return TimerPage();
+            return SizedBox();
+          },
+          listener: (BuildContext context, PageState state) {
+            if (state is StateAlarm) return AlarmPage();
+            if (state is StateWorldTime) return WorldTimePage();
+            if (state is StateStopwatch) return StopwatchPage();
+            if (state is StateTimer) return TimerPage();
+            return SizedBox();
+          }),
       bottomNavigationBar: BlocBuilder<PageBloc, PageState>(
-        bloc: _pageBloc,
+        cubit: _pageBloc,
         builder: (_, state) {
           return BottomNavigationBar(
+            showSelectedLabels: true,
             currentIndex: _pageBloc.currentIndex,
             selectedItemColor: Theme.of(context).primaryColor,
             unselectedItemColor: Theme.of(context).accentColor,

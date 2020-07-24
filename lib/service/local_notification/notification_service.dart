@@ -3,7 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'notification_core.dart';
 
 class NotificationService {
-  static void showNotification(
+  static void showNotification(int id, String title, String body,
       {AndroidNotificationDetails androidNotificationDetails =
           const AndroidNotificationDetails('your channel id',
               'your channel name', 'your channel description',
@@ -13,7 +13,7 @@ class NotificationService {
       IOSNotificationDetails iosNotificationDetails =
           const IOSNotificationDetails()}) {
     flutterLocalNotificationsPlugin.show(
-        1, "test", "body", _platformChannelSpecifics,
+        id, title, body, _platformChannelSpecifics,
         payload: "test payload item x");
   }
 

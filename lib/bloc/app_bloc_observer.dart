@@ -15,9 +15,16 @@ class AppBlocObserver extends BlocObserver {
   }
 
   @override
-  void onError(Bloc bloc, Object error, StackTrace stacktrace) {
+  void onError(Cubit bloc, Object error, StackTrace stacktrace) {
     super.onError(bloc, error, stacktrace);
     debugPrint("[ERROR] in [${bloc.runtimeType}]\n$space[$error\n$stacktrace]");
+  }
+
+  @override
+  void onChange(Cubit cubit, Change change) {
+    super.onChange(cubit, change);
+    debugPrint(
+        "<Change> in <${cubit.runtimeType}>\n$space<${change.toString()}>");
   }
 
   String space = "       ";

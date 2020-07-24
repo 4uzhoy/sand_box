@@ -3,7 +3,7 @@ description: Flutter project which help me discover new features.
 
 # pub.dev using `pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.devys.html
-version: 1.0.0+1
+version: 1.1.0+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -17,8 +17,8 @@ dependencies:
   #logger: 0.9.1
 
   #arch
-  flutter_bloc: 5.0.1
-  hydrated_bloc: 5.0.3
+  flutter_bloc: 6.0.0
+  hydrated_bloc: 6.0.0
   equatable: 1.2.2
 
   #push notification 
@@ -33,7 +33,7 @@ dependencies:
     #Utility
   #formatUtils
   timeago: 2.0.26
-  dartx: 0.4.2
+  dartx: 0.5.0
   basic_utils: 2.5.5
 
   #Service
